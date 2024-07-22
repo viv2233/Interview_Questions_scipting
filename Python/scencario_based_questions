@@ -1,0 +1,287 @@
+===================================================================================
+import boto3
+
+def create_ec2_instance():
+    ec2 = boto3.resource('ec2')  # Create an EC2 resource object
+    instance = ec2.create_instances(
+        ImageId='ami-0abcdef1234567890',  # Replace with your desired AMI ID
+        MinCount=1,
+        MaxCount=1,
+        InstanceType='t2.micro',
+        KeyName='my-key-pair'  # Replace with your SSH key pair name
+    )
+    return instance[0].id
+
+instance_id = create_ec2_instance()
+print(f'Created instance with ID: {instance_id}')
+===================================================================================
+===================================================================================
+from kubernetes import client, config
+
+def get_pod_status(namespace, pod_name):
+    config.load_kube_config()  # Load Kubernetes configuration from default location
+    v1 = client.CoreV1Api()  # Create an instance of the CoreV1Api class
+    pod = v1.read_namespaced_pod(name=pod_name, namespace=namespace)  # Fetch pod details
+    return pod.status.phase  # Return the phase/status of the pod
+
+namespace = 'default'
+pod_name = 'my-pod'
+status = get_pod_status(namespace, pod_name)
+print(f'Pod status: {status}')
+===================================================================================
+===================================================================================
+import docker
+
+client = docker.from_env()  # Create a Docker client instance
+
+def cleanup_docker_images():
+    images = client.images.list(filters={'dangling': True})  # List unused (dangling) Docker images
+    for image in images:
+        client.images.remove(image.id)  # Remove the Docker image
+        print(f'Removed image: {image.id}')
+
+cleanup_docker_images()
+
+===================================================================================
+===================================================================================
+import subprocess
+import boto3
+
+def backup_database_and_upload(db_name, s3_bucket, s3_key):
+    dump_file = f'/tmp/{db_name}.sql'  # Temporary file to store database dump
+    # Execute mysqldump command to create database dump
+    subprocess.run(['mysqldump', '-u', 'root', '-p', db_name, '>', dump_file], check=True)
+    
+    # Upload database dump file to S3 bucket
+    s3 = boto3.client('s3')
+    s3.upload_file(dump_file, s3_bucket, s3_key)
+    print(f'Uploaded {dump_file} to s3://{s3_bucket}/{s3_key}')
+
+backup_database_and_upload('my_database', 'my-s3-bucket', 'backups/my_database.sql')
+
+===================================================================================
+===================================================================================
+from jenkinsapi.jenkins import Jenkins
+import smtplib
+
+def get_job_status(jenkins_url, job_name):
+    jenkins = Jenkins(jenkins_url)  # Connect to Jenkins server
+    job = jenkins.get_job(job_name)  # Get Jenkins job by name
+    last_build = job.get_last_build()  # Get details of last build
+    return last_build.get_status()  # Return status of last build
+
+def send_alert(job_name, status):
+    message = f"Subject: Jenkins Job Alert\n\nJob {job_name} has status: {status}"
+    with smtplib.SMTP('smtp.example.com') as server:  # Replace with your SMTP server
+        server.login("your_email@example.com", "your_password")  # Replace with your email credentials
+        server.sendmail("your_email@example.com", "alert_recipient@example.com", message)
+
+jenkins_url = 'http://jenkins.example.com'
+job_name = 'my_job'
+status = get_job_status(jenkins_url, job_name)
+
+if status != 'SUCCESS':
+    send_alert(job_name, status)
+
+===================================================================================
+===================================================================================
+import json
+
+def extract_errors_from_logs(log_file):
+    with open(log_file, 'r') as file:
+        logs = json.load(file)  # Load JSON data from log file
+    
+    errors = [log for log in logs if log['level'] == 'ERROR']  # Filter logs for ERROR level
+    return errors
+
+errors = extract_errors_from_logs('/var/log/my_app.log')
+for error in errors:
+    print(error)
+
+
+===================================================================================
+===================================================================================
+import paramiko
+
+def create_user_on_server(server, username):
+    ssh = paramiko.SSHClient()  # Create SSH client instance
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect(server, username='your_username', password='your_password')  # Connect to remote server
+    
+    # Execute command to create new user
+    ssh.exec_command(f'sudo useradd {username}')
+    ssh.close()
+
+servers = ['server1.example.com', 'server2.example.com']
+username = 'new_user'
+
+for server in servers:
+    create_user_on_server(server, username)
+    print(f'Created user {username} on {server}')
+
+===================================================================================
+===================================================================================
+from watchdog.observers import Observer
+from watchdog.events import FileSystemEventHandler
+import time
+
+class ChangeHandler(FileSystemEventHandler):
+    def on_modified(self, event):
+        if event.src_path == "/path/to/watched/file":
+            print(f'{event.src_path} has been modified')
+
+def monitor_file():
+    event_handler = ChangeHandler()
+    observer = Observer()
+    observer.schedule(event_handler, path='/path/to/watched/', recursive=False)
+    observer.start()
+
+    try:
+        while True:
+            time.sleep(1)
+    except KeyboardInterrupt:
+        observer.stop()
+    observer.join()
+
+monitor_file()
+
+===================================================================================
+===================================================================================
+import boto3
+
+def update_dns_record(zone_id, record_name, record_type, record_value):
+    client = boto3.client('route53')  # Create a Route 53 client
+    response = client.change_resource_record_sets(
+        HostedZoneId=zone_id,
+        ChangeBatch={
+            'Changes': [{
+                'Action': 'UPSERT',  # Specify UPSERT to create or update record
+                'ResourceRecordSet': {
+                    'Name': record_name,
+                    'Type': record_type,
+                    'TTL': 300,
+                    'ResourceRecords': [{'Value': record_value}]
+                }
+            }]
+        }
+    )
+    return response
+
+zone_id = 'Z1234567890'
+record_name = 'example.com'
+record_type = 'A'
+record_value = '192.0.2.1'
+response = update_dns_record(zone_id, record_name, record_type, record_value)
+print(response)
+
+===================================================================================
+===================================================================================
+import os
+import shutil
+from datetime import datetime
+
+def rotate_logs(log_file):
+    timestamp = datetime.now().strftime('%Y%m%d%H%M%S')  # Generate timestamp
+    backup_file = f'{log_file}.{timestamp}'  # Rename existing log file with timestamp
+    shutil.move(log_file, backup_file)  # Move existing log file to backup file
+    open(log_file, 'w').close()  # Create a new empty log file
+
+log_file = '/var/log/my_app.log'
+rotate_logs(log_file)
+print(f'Rotated log file: {log_file}')
+===================================================================================
+===================================================================================
+import requests
+
+def fetch_prometheus_metrics(prometheus_url, query):
+    response = requests.get(f'{prometheus_url}/api/v1/query', params={'query': query})  # Query Prometheus API
+    result = response.json()  # Parse JSON response
+    return result['data']['result']  # Return metrics data
+
+prometheus_url = 'http://prometheus.example.com'
+query = 'up'  # Example Prometheus query
+metrics = fetch_prometheus_metrics(prometheus_url, query)
+for metric in metrics:
+    print(metric)
+===================================================================================
+===================================================================================
+import paramiko
+
+def check_and_restart_service(server, process_name, service_name):
+    ssh = paramiko.SSHClient()  # Create SSH client instance
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect(server, username='your_username', password='your_password')  # Connect to remote server
+    
+    # Check if process is running
+    stdin, stdout, stderr = ssh.exec_command(f'pgrep -f {process_name}')
+    process_id = stdout.read().strip()
+    
+    if not process_id:  # If process is not running, restart the service
+        ssh.exec_command(f'sudo systemctl restart {service_name}')
+        print(f'Restarted service {service_name} on {server}')
+    
+    ssh.close()
+
+servers = ['server1.example.com', 'server2.example.com']
+process_name = 'my_process'
+service_name = 'my_service'
+
+for server in servers:
+    check_and_restart_service(server, process_name, service_name)
+===================================================================================
+===================================================================================
+import boto3
+
+def list_iam_users():
+    iam = boto3.client('iam')  # Create an IAM client instance
+    response = iam.list_users()  # List IAM users
+    users = [user['UserName'] for user in response['Users']]  # Extract usernames from response
+    return users
+
+users = list_iam_users()
+print(f'IAM Users: {users}')
+===================================================================================
+===================================================================================
+import psutil
+
+def monitor_and_kill_process(process_name, memory_threshold):
+    # Iterate over all processes
+    for proc in psutil.process_iter(['pid', 'name', 'memory_info']):
+        if proc.info['name'] == process_name:
+            # Get the memory usage in MB
+            memory_usage = proc.info['memory_info'].rss / (1024 * 1024)
+            
+            # Kill the process if it exceeds the memory threshold
+            if memory_usage > memory_threshold:
+                proc.kill()
+                print(f'Killed process {proc.info["pid"]} for exceeding memory threshold')
+                break
+
+# Define the process name and memory threshold (in MB)
+process_name = 'my_process'
+memory_threshold = 500
+
+# Monitor and kill the process if it exceeds the memory threshold
+monitor_and_kill_process(process_name, memory_threshold)
+===================================================================================
+===================================================================================
+from kubernetes import client, config, utils
+
+def deploy_kubernetes_app(yaml_file):
+    # Load the kube config from the default location
+    config.load_kube_config()
+    
+    # Initialize the API client
+    k8s_client = client.ApiClient()
+    
+    # Apply the YAML configuration
+    utils.create_from_yaml(k8s_client, yaml_file)
+    print(f'Deployed Kubernetes application using {yaml_file}')
+
+# Define the path to the YAML file
+yaml_file = 'deployment.yaml'
+
+# Call the function to deploy the Kubernetes application
+deploy_kubernetes_app(yaml_file)
+===================================================================================
+===================================================================================
