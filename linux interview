@@ -1,0 +1,123 @@
+System Logs s Troubleshooting Scenarios
+===========================
+1. Your server is rebooting randomly. How do you investigate the cause?
+
+We check logs using journalctl -xe and dmesg for kernel or hardware issues.
+We also inspect /var/log/messages or /var/log/syslog for any panic or crash messages.
+Hardware failures, cron reboots, or misconfigured watchdogs may be responsible.
+
+2. A user reports that they are getting a "Permission Denied" error when accessing a log file. What could be the issue?
+
+We check the file's permissions and ownership using ls -l.
+If the user lacks read access or the directory has restricted access (dr-x or ---), it causes issues.
+We adjust permissions using chmod or grant access via group membership.
+
+3. An application is crashing frequently. How do you collect logs and debug it?
+
+We inspect the application's logs, often located in /var/log/ or under the app’s folder.
+Using journalctl -u <service> helps if it’s a systemd service.
+We can also run the application manually with debugging flags or use strace.
+
+4. How do you configure logging to rotate logs automatically?
+
+We configure /etc/logrotate.conf or use custom files in /etc/logrotate.d/.
+Logrotate manages file rotation, compression, and deletion based on size or time.
+We test settings using logrotate -d and apply them with logrotate -f.
+
+5. Your system logs are filling up disk space. How do you manage them?
+
+We check log sizes using du -sh /var/log/* and clean up old logs.
+We can compress them manually or rely on logrotate to auto-manage them.
+Clearing journal logs using journalctl --vacuum-size=100M also helps.
+
+6. How do you check which user deleted a specific file?
+
+By default, Linux doesn’t track deletions, so we need auditd for this.
+We configure audit rules like auditctl -w /path/to/file -p wa to monitor deletions.
+Then check the logs using ausearch -f <filename> or aureport.
+
+7. How do you troubleshoot a slow boot process in Linux?
+
+We run systemd-analyze and systemd-analyze blame to see startup time breakdowns.
+It helps identify services that delay the boot.
+We can disable or mask unnecessary services using systemctl.
+
+8. How do you check if a service crashed and restarted automatically?
+
+We use journalctl -u <service> or systemctl status <service> to check logs and restart count.
+Repeated crashes may show messages like "Main PID exited" or "core dumped".
+For persistent logs, ensure journald is properly configured.
+
+9. How do you enable persistent logging on a Linux system?
+
+By default, journald logs may be stored in memory.
+We make logging persistent by creating /var/log/journal and restarting systemd-journald.
+This keeps logs even after a reboot.
+
+10. A cron job is not running as expected. How do you debug it?
+
+We check the cron logs using grep CRON /var/log/syslog or journalctl -u cron.
+Permissions, wrong paths, or missing environment variables often cause failures.
+Redirecting output and errors to a log file in the cron entry also helps.
+-----------
+Linux Q/A 41 To 50
+-----------------------
+41. What are the different types of process states in Linux?
+
+Linux processes can be in states like Running (R), Sleeping (S), Stopped (T), Zombie (Z), and Waiting (D).
+You can check these using ps -eo pid,stat,cmd.
+Understanding these states helps us manage and troubleshoot process-related issues.
+
+42. How do you check environment variables in Linux?
+
+We use the printenv, env, or echo $VARIABLE commands to view environment variables.
+For example, echo $HOME shows the current user's home directory.
+These variables are essential for configuring the shell and user environment.
+
+43. How do you permanently set an environment variable?
+
+To set a variable permanently, we add it to configuration files like ~/.bashrc or /etc/profile.
+Example: add export PATH=$PATH:/opt/myapp/bin to ~/.bashrc.
+Then run source ~/.bashrc to apply changes immediately.
+
+44. What is the purpose of the /etc/fstab file?
+
+The /etc/fstab file defines how and where disk partitions, devices, or network shares are mounted.
+It is read during boot to mount filesystems automatically.
+Each line includes device name, mount point, filesystem type, and mount options.
+
+45. How do you mount and unmount a filesystem?
+
+We use the mount command to mount: mount /dev/sdb1 /mnt/data.
+To unmount, we use umount /mnt/data.
+Ensure no processes are using the mount point before unmounting to avoid errors.
+
+46. What is LVM (Logical Volume Manager) in Linux?
+
+LVM allows us to create flexible and resizable disk storage using physical volumes (PVs), volume groups (VGs), and logical volumes (LVs).
+We can resize, move, or snapshot volumes without downtime.
+It is ideal for dynamic storage management on servers.
+
+47. How do you check free memory and swap space?
+
+We use free -h to see human-readable output of RAM and swap usage.
+top and vmstat also provide real-time memory statistics.
+This helps us monitor system performance and detect memory issues.
+
+48. How do you clear swap space?
+
+To clear swap, we turn it off and on using: sudo swapoff -a && sudo swapon -a.
+This forces the system to move swapped data back to RAM.
+It’s useful for freeing up swap space during performance tuning.
+
+49. What is the difference between hard links and symbolic links?
+
+Hard links point to the same inode as the original file, sharing the actual data.
+Symbolic links are like shortcuts that reference a file path.
+If the original file is deleted, a hard link remains valid, but a symlink breaks.
+
+50. What is the difference between sed and awk?
+
+sed is a stream editor used for text substitution, like replacing strings in files.
+awk is more powerful, useful for pattern scanning and data extraction by columns.
+We use sed for quick edits and awk for advanced data processing.
