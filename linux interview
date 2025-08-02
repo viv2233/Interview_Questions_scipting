@@ -183,3 +183,29 @@ This ensures the system automatically reboots instead of hanging on panic.
 Use live patching tools like Canonical Livepatch, ksplice, or kpatch.
 These tools apply kernel updates to memory without restarting.
 This is ideal for critical systems requiring high uptime.
+==============================
+******AWS Troubleshooting****** 
+
+1. You shared an AMI with another AWS account, but they can’t launch an instance from it.
+ A: Most forget to share the EBS snapshot linked to the AMI. Without it, the AMI shows up but fails at launch.
+
+2. ALB marks your targets as unhealthy, but the app works in your browser.
+ A: ALB health checks are picky. A 301 redirect or login page will cause failure. It wants a clean 200 OK response.
+
+3. ECS still runs the old container version after pushing a new image to ECR.
+ A: If you’re using tags like latest, ECS might pull from cache. Use unique tags or digests to ensure it fetches the correct version.
+
+4. In EKS, your stateful pod with an EBS volume is stuck in Pending. Why?
+ A: EBS volumes are AZ-bound. If the pod lands in a node from another AZ, it can’t attach the volume. Ensure the node group spans the correct Availability Zone.
+
+5. Your EKS pod can’t access S3, even though IAM roles for service accounts are enabled.
+ A: The pod must use a service account annotated with the IAM role. If it’s using the default service account or missing the annotation, the IAM role won’t apply.
+
+6. EC2 has a public IP and security group allows traffic—but it’s unreachable. Why?
+ A: *No Internet Gateway attached to the VPC.
+*Route table doesn't point to the Internet Gateway.
+*NACLs are blocking traffic.
+*OS firewall (like iptables) is blocking.
+*Service not running or listening on the wrong port.
+
+7. You restored a production RDS snapshot in staging, but queries behave differently.
