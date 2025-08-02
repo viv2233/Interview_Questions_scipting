@@ -195,4 +195,48 @@ Subtopic Focus: Terraform with Azure DevOps, IaC, Security & Compliance
 24. How would you structure a Terraform mono-repo vs multi-repo in Azure DevOps?
 
 25. Describe how you integrate Azure Policy and Terraform for compliance enforcement.
+===========================================
+💼 DevOps Interview Questions at Deloitte – 5+ YOE Edition
+
+🧠 Round 1 – Infra Design & Cloud Foundations (45 mins)
+• Walk through your CI/CD pipeline. How is it secured from code to deploy?
+• What does a well-architected multi-account AWS setup look like for DevSecOps?
+• EBS vs EFS vs FSx. walk through use cases and tradeoffs
+• How does kubelet handle node pressure? What happens when the disk fills?
+• How do you manage secrets across staging, QA, and prod, without exposure?
+• Describe your logging strategy. How do you avoid observability blind spots?
+• How do you handle Terraform module upgrades with minimal impact?
+• Bash one-liner: Delete all .tmp files older than 15 days in /var/log
+• What happens in an S3 PUT call from CLI to data persistence?
+• How do you implement drift detection across infra environments?
+
+🔥 Round 2 – Live Fire, Triage & RCA Thinking (75 mins)
+• A Canary deploy passed. But prod is throwing timeouts. Where do you begin?
+• Karpenter provisioned double the expected nodes. What’s misconfigured?
+• Vault token expiry caused auth failures across services, RCA start to finish?
+• App gives 200 OK, but payment gateway isn’t triggering. What’s your hypothesis tree?
+• Your Helm upgrade corrupted the stateful workload rollback strategy?
+• EKS cluster degraded after configMap hot reload. What changed?
+• Simulate partial network loss to a single AZ. How do you test HA failover?
+• Jenkins jobs queue up endlessly. What metrics do you check first?
+• TLS handshake failed after ALB config update, root cause analysis?
+• Audit found secrets exposed in Git history. What’s your fix + prevention strategy?
+
+💬 Round 3 – Engineering Judgment & Team Fit (30 mins)
+• What’s your checklist before calling something “production-ready”?
+• How do you coach juniors without overwhelming them with tooling?
+• When was the last time you wrote (or read) a meaningful postmortem?
+• You’re asked to cut scope for reliability. Where do you push back?
+• What’s your incident response philosophy when metrics are fine, but users complain?
+
+💡 TL;DR:
+If you haven’t:
+Simulated partial network loss across AZs
+Investigated a 200 OK bug that masked real failure
+Rolled back a Helm upgrade under pressure
+Recovered from a secret leakage in version control
+
+Then Deloitte interviews won’t test you. They’ll expose the gaps in your chaos muscle.
+
+🧯 But what if you trained before prod burned?
 
