@@ -141,3 +141,58 @@ Yes, I have worked with ASGs to automatically scale the number of instances in r
 38. Linux command to check CPU & memory usage
 39. How to find IP of current system & domain (via commands)?
 40. Types of Load Balancers based on OSI model
+=========================
+Azure DevOps Interview Series – Part 2 
+
+Subtopic Focus: Terraform with Azure DevOps, IaC, Security & Compliance
+
+1. How do you securely store and retrieve Terraform state files in Azure?
+
+2. Explain how you integrate Terraform workflows with Azure DevOps pipelines.
+
+3. What’s the difference between local backend and remote backend in Terraform? Which is preferable in enterprise pipelines?
+
+4. How do you implement role-based access control (RBAC) with Terraform and Azure?
+
+5. Describe the use of terraform workspace in a CI/CD environment.
+
+6. How do you handle state locking in Terraform when used with Azure DevOps pipelines?
+
+7. What’s the best practice for managing secrets like client secrets in a Terraform pipeline?
+
+8. How do you manage Terraform module versioning across multiple pipelines?
+
+9. Describe a secure strategy to store and inject service principal credentials for Terraform pipelines.
+
+10. What is the use of azurerm_provider block and how do you manage multiple providers?
+
+11. How do you validate and lint Terraform code during pull request validation in Azure Repos?
+
+12. Explain how terraform plan and terraform apply stages are designed in a gated pipeline.
+
+13. How do you set up automated cost estimation for Terraform resources in Azure?
+
+14. What tools can be used for Terraform security scanning and how do you integrate them into Azure DevOps?
+
+15. How do you enforce tagging and naming conventions using policy as code in Terraform?
+
+16. How do you manage environment-specific variables in Terraform for staging, dev, and prod?
+
+17. What are Sentinel or OPA policies, and how do you use them in IaC governance?
+
+18. How do you design approval workflows for infrastructure changes managed via Terraform?
+
+19. Explain how you would implement drift detection in Terraform-managed infrastructure.
+
+20. What’s the best approach to handle Terraform state refactoring?
+
+21. How do you implement version pinning for Terraform providers and modules?
+
+22. How do you monitor and audit who ran terraform apply and when?
+
+23. What is your rollback strategy if a Terraform deployment introduces breaking changes?
+
+24. How would you structure a Terraform mono-repo vs multi-repo in Azure DevOps?
+
+25. Describe how you integrate Azure Policy and Terraform for compliance enforcement.
+
