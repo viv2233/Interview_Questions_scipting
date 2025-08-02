@@ -1,0 +1,43 @@
+ Understanding REST API Status Codes – More Than Just 200 OK 🌐
+
+When building RESTful APIs, HTTP status codes are your API’s first line of communication with clients. Handling them correctly improves debugging, user experience, and system resilience.
+
+Here’s a quick refresher:
+
+✅ 2xx – Success
+
+200 OK: Standard success.
+
+201 Created: Resource created (e.g., after POST).
+
+204 No Content: Successful, no response body.
+
+⚠️ 4xx – Client Errors
+
+400 Bad Request: Malformed syntax or invalid input.
+
+401 Unauthorized: Auth required or failed.
+
+403 Forbidden: Auth okay, but no access.
+
+404 Not Found: Resource doesn’t exist.
+
+429 Too Many Requests: Rate limiting in action.
+
+💥 5xx – Server Errors
+
+500 Internal Server Error: Something broke.
+
+502 Bad Gateway: Downstream service failed.
+
+503 Service Unavailable: Temporarily offline (maintenance, overload).
+
+504 Gateway Timeout: Upstream didn’t respond in time.
+
+🎯 Best Practices:
+
+Use the most specific status code.
+
+Avoid always returning 200 with error info in the body (hard to monitor).
+
+Log 5xx errors. Alert on spikes.
