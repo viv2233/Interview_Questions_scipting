@@ -121,3 +121,65 @@ If the original file is deleted, a hard link remains valid, but a symlink breaks
 sed is a stream editor used for text substitution, like replacing strings in files.
 awk is more powerful, useful for pattern scanning and data extraction by columns.
 We use sed for quick edits and awk for advanced data processing.
+===================
+System’s Kernel Scenarios
+=================
+1. How do you upgrade the Linux kernel safely?
+
+We first check the current kernel version using uname -r.
+Then we use package managers like apt, dnf, or yum to upgrade the kernel, e.g., sudo apt install linux-generic.
+Always reboot and keep the old kernel as a fallback option in the GRUB menu.
+
+2. You need to enable a specific kernel module. How do you do it?
+
+We use modprobe <module_name> to load the module temporarily.
+To load it at every boot, we add it to /etc/modules or create a .conf file under /etc/modules-load.d/.
+We can verify it's loaded using lsmod.
+
+3. A server crashes with a kernel panic. How do you troubleshoot and fix it?
+
+Check /var/log/kern.log or journalctl -k for error messages before the panic.
+Hardware issues, bad drivers, or corrupted initramfs can trigger panics.
+Boot into a previous kernel or recovery mode to troubleshoot and update/reinstall drivers or kernel.
+
+4. How do you find out which kernel version is running on your system?
+
+Use the command uname -r to see the running kernel version.
+You can also check cat /proc/version for detailed info.
+hostnamectl also displays kernel version info in modern distros.
+
+5. You need to disable a specific kernel module permanently. How do you do it?
+
+Create a blacklist file under /etc/modprobe.d/, e.g., blacklist.conf, and add blacklist <module_name>.
+To prevent loading via initramfs, rebuild it using update-initramfs -u (Debian-based).
+Reboot to apply changes and confirm with lsmod.
+
+6. Your server has high load but low CPU and memory usage. What could be causing it?
+
+High load may be due to blocked I/O, such as slow disks or NFS hangs.
+Run top, iotop, or vmstat to diagnose waiting processes.
+Check disk latency with iostat or dstat.
+
+7. How do you check if the system supports virtualization?
+
+Run egrep -c '(vmx|svm)' /proc/cpuinfo.
+A non-zero value means virtualization is supported by the CPU.
+You can also use lscpu or virt-host-validate to verify virtualization support.
+
+8. A package update broke a system service. How do you roll back the update?
+
+Use the package manager’s history, like yum history undo <id> or apt install <package>=<old-version>.
+You can check logs in /var/log/dpkg.log or /var/log/yum.log.
+After rollback, restart the affected service with systemctl.
+
+9. How do you force a system to reboot after a kernel panic?
+
+Edit /etc/sysctl.conf and add kernel.panic = 10 to reboot after 10 seconds.
+Apply it with sysctl -p.
+This ensures the system automatically reboots instead of hanging on panic.
+
+10. How do you apply security patches to a running Linux system without rebooting?
+
+Use live patching tools like Canonical Livepatch, ksplice, or kpatch.
+These tools apply kernel updates to memory without restarting.
+This is ideal for critical systems requiring high uptime.
