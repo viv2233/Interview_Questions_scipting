@@ -1,0 +1,121 @@
+ Debugging the OOM Error
+Check System Logs
+
+Look for oom-killer messages in logs:
+
+bash
+Copy
+Edit
+dmesg | grep -i 'killed process'
+journalctl -k | grep -i oom
+This shows which process was killed, why, and how much memory it was using.
+
+Analyze /var/log/syslog or /var/log/messages
+
+These logs might show detailed memory usage leading to the OOM event:
+
+bash
+Copy
+Edit
+sudo less /var/log/syslog
+sudo less /var/log/messages
+Check Resource Usage Over Time
+
+Use tools like:
+
+top, htop, or glances (interactive)
+
+vmstat or free -m (snapshots)
+
+sar (for historical performance data)
+
+Use smem or ps_mem.py for accurate per-process memory usage:
+
+bash
+Copy
+Edit
+sudo smem -r | sort -k 4 -nr | head
+Look for Memory Leaks
+
+If your application is consuming more memory over time, it may have a leak.
+
+Use tools like:
+
+valgrind (C/C++)
+
+memory_profiler (Python)
+
+JVM tools (jmap, jconsole, VisualVM) for Java
+
+Review Memory Limits (Containers/Cloud)
+
+For Docker or Kubernetes, check if the container has memory limits:
+
+bash
+Copy
+Edit
+docker inspect <container_id> | grep Memory
+kubectl describe pod <pod-name>
+🛡️ Preventing OOM Conditions
+Increase System Memory
+
+Add more RAM if possible.
+
+Set Resource Limits
+
+Use ulimit (Linux shell):
+
+bash
+Copy
+Edit
+ulimit -v <max_virtual_memory_kb>
+In Kubernetes:
+
+yaml
+Copy
+Edit
+resources:
+  limits:
+    memory: "512Mi"
+Tune the OOM Killer Behavior
+
+Adjust oom_score_adj or oom_adj for processes you want to protect or prioritize for killing:
+
+bash
+Copy
+Edit
+echo -1000 > /proc/<pid>/oom_score_adj  # Less likely to be killed
+Use Swap Space (Cautiously)
+
+Add or increase swap:
+
+bash
+Copy
+Edit
+sudo fallocate -l 2G /swapfile
+sudo mkswap /swapfile
+sudo swapon /swapfile
+Be careful: swap is much slower than RAM.
+
+Optimize the Application
+
+Profile and optimize memory usage within your application.
+
+Use efficient data structures, avoid large object retention, close resources.
+
+Use cgroups (Linux) to isolate resources
+
+Prevent one process from using all memory:
+
+bash
+Copy
+Edit
+systemd-run --scope -p MemoryMax=500M ./your_script.sh
+✅ Summary Checklist
+Task	Command
+Check if OOM Killer was triggered	`dmesg
+Monitor memory usage	htop, vmstat, free -h
+Find memory hogs	smem, ps aux --sort=-%mem
+Set process memory priority	echo -1000 > /proc/<pid>/oom_score_adj
+Add swap (if needed)	sudo swapon /swapfile
+Profile app memory use	Use language-specific tools (e.g., valgrind, memory_profiler)
