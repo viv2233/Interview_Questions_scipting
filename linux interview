@@ -274,3 +274,90 @@ It’s good practice to inform users and test before closing the old port.
 We temporarily enable it with:
 echo 1 > /proc/sys/net/ipv4/ip_forward 
 For a permanent setup, we edit /etc/sysctl.conf and set net.ipv4.ip_forward = 1, then run sysctl -p.
+=======================
+****LVM Interview Questions and Answers (with Scenarios)****
+
+🔹 Q1: What is LVM and why would you use it?
+
+Answer:
+LVM (Logical Volume Manager) is a system in Linux for managing disk space. It allows dynamic resizing, flexible volume creation, spanning volumes across disks, and taking snapshots — features not available with traditional partitioning.
+
+🔹 Q2: What are the main components of LVM?
+
+Answer:Component Description
+PV (Physical Volume) Physical disk or partition (e.g., /dev/sdb1)
+VG (Volume Group) Pool of storage from PVs
+LV (Logical Volume) Partition-like structure for filesystem
+
+🔹 Q3: How do you create and mount an LVM volume?
+
+Answer:
+pvcreate /dev/sdb
+vgcreate vg_data /dev/sdb
+lvcreate -L 10G -n lv_data vg_data
+mkfs.ext4 /dev/vg_data/lv_data
+mount /dev/vg_data/lv_data /mnt
+
+🔹 Q4: How do you extend a logical volume?
+
+Answer:
+lvextend -L +5G /dev/vg_data/lv_data
+resize2fs /dev/vg_data/lv_data
+
+Note: Use xfs_growfs instead of resize2fs for XFS filesystem.
+
+🔹 Q5: You are running out of space on /home. What would you do if it’s an LVM volume?
+
+Answer:
+ 1. Add a new disk (e.g., /dev/sdc)
+ 2. Convert to PV: pvcreate /dev/sdc
+ 3. Extend VG: vgextend my_vg /dev/sdc
+ 4. Extend LV: lvextend -L +10G /dev/my_vg/home_lv
+ 5. Resize filesystem: resize2fs /dev/my_vg/home_lv
+
+🔹 Q6: Can you reduce the size of an LVM volume?
+
+Answer:
+Yes, but with caution:
+ 1. Unmount the LV
+ 2. Run e2fsck to check filesystem
+ 3. Shrink filesystem: resize2fs /dev/vg/lv 5G
+ 4. Reduce LV: lvreduce -L 5G /dev/vg/lv
+ 5. Mount the volume again
+
+
+🔹 Q7: How do LVM snapshots work?
+
+Answer:
+Snapshots are copy-on-write logical volumes that preserve the state of a volume at a specific time. Useful for backups or testing changes.
+
+lvcreate -s -L 1G -n lv_snap /dev/vg/lv
+
+They consume space only for changed data since snapshot creation.
+
+🔹 Q8: What’s the difference between striped and linear volumes?
+
+Answer:
+Type Description
+Linear Data written sequentially across disks
+Striped Data spread across disks like RAID 0 (better performance)
+
+Create striped LV:
+
+lvcreate -i2 -I64 -L 10G -n striped_lv vg
+
+(-i2: two stripes, -I64: 64KB stripe size)
+
+
+🔹 Q9: What is thin provisioning in LVM?
+
+Answer:
+Thin provisioning allows you to create LVs larger than the available physical space. Space is allocated on demand.
+
+Useful in virtualized or cloud environments.
+
+
+🔹 Q10: How do you back up and restore LVM configuration?
+
+Answer:
+ • Backups are stored in /etc/lvm/archive/ and /etc/lvm/backup/
