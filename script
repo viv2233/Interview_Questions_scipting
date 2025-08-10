@@ -47,3 +47,142 @@ MainMenu() {
         esac
     done
 }
+==================================
+#!/bin/bash
+
+# ----------------------------------------
+# Main Menu Script to Install Applications
+# ----------------------------------------
+
+MainMenu() {
+    echo -e "\n*************** Script Start ********************\n"
+
+    # Initial checks
+    Print_msg
+    CheckRoot
+    CheckPatchDirectory
+    CheckOS
+
+    # Main interactive menu
+    PS3="Select an option (1-7): "
+    select option in \
+        "Install Microsoft Defender" \
+        "Install Snow Agent" \
+        "Install Google Chrome" \
+        "Install EPP" \
+        "Install Forticlient" \
+        "Install Netskope Certificates" \
+        "Exit"; do
+
+        case $option in
+            "Install Microsoft Defender")
+                InstallMicrosoftDefender
+                ;;
+            "Install Snow Agent")
+                InstallSnowAgent
+                ;;
+            "Install Google Chrome")
+                InstallChrome
+                ;;
+            "Install EPP")
+                InstallEPP
+                ;;
+            "Install Forticlient")
+                InstallForticlient
+                ;;
+            "Install Netskope Certificates")
+                InstallNetskopeCerts
+                ;;
+            "Exit")
+                echo "Exiting the script."
+                break
+                ;;
+            *)
+                echo "Invalid option, please try again."
+                ;;
+        esac
+    done
+}
+
+# ----------------------------------------
+# Helper Functions (Mock implementations)
+# ----------------------------------------
+
+Print_msg() {
+    echo "Welcome! This script will help install security and utility software."
+}
+
+CheckRoot() {
+    if [ "$EUID" -ne 0 ]; then
+        echo "Please run as root (sudo)."
+        exit 1
+    fi
+}
+
+CheckPatchDirectory() {
+    PATCH_DIR="/opt/patches"
+    if [ ! -d "$PATCH_DIR" ]; then
+        echo "Patch directory not found. Creating $PATCH_DIR..."
+        mkdir -p "$PATCH_DIR"
+    else
+        echo "Patch directory found: $PATCH_DIR"
+    fi
+}
+
+CheckOS() {
+    echo "Checking OS version..."
+    if [ -f /etc/os-release ]; then
+        . /etc/os-release
+        echo "You are running: $PRETTY_NAME"
+    else
+        echo "OS version info not found."
+    fi
+}
+
+# ----------------------------------------
+# Application Installation Functions
+# ----------------------------------------
+
+InstallMicrosoftDefender() {
+    echo "Installing Microsoft Defender..."
+    # Placeholder: Insert real installation logic here
+    sleep 1
+    echo "Microsoft Defender installed (simulated)."
+}
+
+InstallSnowAgent() {
+    echo "Installing Snow Agent..."
+    sleep 1
+    echo "Snow Agent installed (simulated)."
+}
+
+InstallChrome() {
+    echo "Installing Google Chrome..."
+    sleep 1
+    echo "Google Chrome installed (simulated)."
+}
+
+InstallEPP() {
+    echo "Installing EPP (Endpoint Protection Platform)..."
+    sleep 1
+    echo "EPP installed (simulated)."
+}
+
+InstallForticlient() {
+    echo "Installing Forticlient..."
+    sleep 1
+    echo "Forticlient installed (simulated)."
+}
+
+InstallNetskopeCerts() {
+    echo "Installing Netskope Certificates..."
+    sleep 1
+    echo "Netskope Certificates installed (simulated)."
+}
+
+# ----------------------------------------
+# Run the Menu
+# ----------------------------------------
+
+MainMenu
+================
