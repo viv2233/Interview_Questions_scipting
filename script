@@ -1,0 +1,49 @@
+MainMenu() {
+    echo -e "*************** Script Start ********************\n\n"
+
+    # Display initial messages
+    Print_msg
+    CheckRoot
+    CheckPatchDirectory
+    CheckOS
+
+    # Main interactive menu
+    PS3="Select an option (1-7): "
+    select option in \
+        "Install Microsoft Defender" \
+        "Install Snow Agent" \
+        "Install Google Chrome" \
+        "Install EPP" \
+        "Install Forticlient" \
+        "Install Netskope Certificates" \
+        "Exit"; do
+
+        case $option in
+            "Install Microsoft Defender")
+                InstallMicrosoftDefender
+                ;;
+            "Install Snow Agent")
+                InstallSnowAgent
+                ;;
+            "Install Google Chrome")
+                InstallChrome
+                ;;
+            "Install EPP")
+                InstallEPP
+                ;;
+            "Install Forticlient")
+                InstallForticlient
+                ;;
+            "Install Netskope Certificates")
+                InstallNetskopeCerts
+                ;;
+            "Exit")
+                echo "Exiting the script."
+                break
+                ;;
+            *)
+                echo "Invalid option, please try again."
+                ;;
+        esac
+    done
+}
