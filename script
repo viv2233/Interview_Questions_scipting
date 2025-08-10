@@ -186,3 +186,159 @@ InstallNetskopeCerts() {
 
 MainMenu
 ================
+#########################################################################
+#!/bin/bash
+
+# ----------------------- Basic Information ----------------------------
+echo "----------------------- Basic Information ----------------------------"
+echo "Developed By:             Danveer Dagar"
+echo "Script Name:              Basic-Software-Installation.sh"
+echo "Script Version:           V1.1"
+echo "Description:              This script installs basic patches such as Defender, Snow, Chrome, EPP, Forticlient, etc."
+echo "------------------------------- End -------------------------------"
+clear
+
+# ---------------- Print Message Function ----------------
+Print_msg() {
+    echo "***************************************"
+    echo "Developed by Danveer Dagar"
+    echo "For queries, contact: IT.HelpdeskLab@hsc.com"
+    echo "***************************************"
+    echo
+}
+
+# ---------------- Root User Check ----------------
+CheckRoot() {
+    if [ "$EUID" -ne 0 ]; then
+        echo "❌ Please run this script as root (use sudo)."
+        exit 1
+    else
+        echo "✅ You are logged in as root."
+    fi
+}
+
+# ---------------- Directory Check ----------------
+CheckPatchDirectory() {
+    if [ ! -d /root/Patch/ ]; then
+        echo "❌ 'Patch' directory is missing in /root/. Please create it and add necessary packages (e.g., .deb, .rpm, .zip)."
+        exit 1
+    else
+        echo "✅ Patch directory found."
+    fi
+}
+
+# ---------------- OS Check (Optional) ----------------
+CheckOS() {
+    if [ -f /etc/os-release ]; then
+        . /etc/os-release
+        echo "ℹ️  Detected OS: $PRETTY_NAME"
+    else
+        echo "⚠️  OS information not found."
+    fi
+}
+
+# ---------------- Software Installation Functions ----------------
+
+InstallMicrosoftDefender() {
+    echo "Installing Microsoft Defender (simulated)..."
+    sleep 1
+    echo "✅ Microsoft Defender installation complete."
+}
+
+InstallSnowAgent() {
+    echo "Installing Snow Agent (simulated)..."
+    sleep 1
+    echo "✅ Snow Agent installation complete."
+}
+
+InstallChrome() {
+    echo "Installing Google Chrome (simulated)..."
+    sleep 1
+    echo "✅ Google Chrome installation complete."
+}
+
+InstallEPP() {
+    echo "Installing EPP Client..."
+    cd /root/ || exit
+    cp Patch/EPPClient_ubuntu_22.04_v2.4.1.2001_x86_64.zip /opt 2>/dev/null
+
+    if [ $? -ne 0 ]; then
+        echo "❌ EPP zip file not found in /root/Patch/"
+        return
+    fi
+
+    cd /opt || exit
+    unzip -o EPPClient_ubuntu_22.04_v2.4.1.2001_x86_64.zip
+    cd EPPClient_ubuntu_22.04_v2.4.1.2001_x86_64 || exit
+
+    if [ -f install.sh ]; then
+        chmod +x install.sh
+        ./install.sh
+        echo "✅ EPP Client installation complete."
+    else
+        echo "❌ install.sh not found in EPPClient folder."
+    fi
+}
+
+InstallForticlient() {
+    echo "Installing Forticlient (simulated)..."
+    sleep 1
+    echo "✅ Forticlient installation complete."
+}
+
+InstallNetskopeCerts() {
+    echo "Installing Netskope Certificates (simulated)..."
+    sleep 1
+    echo "✅ Netskope Certificate installation complete."
+}
+
+# ---------------- Main Menu Function ----------------
+MainMenu() {
+    Print_msg
+    CheckRoot
+    CheckPatchDirectory
+    CheckOS
+
+    PS3="🔢 Select an option (1-7): "
+    select option in \
+        "Install Microsoft Defender" \
+        "Install Snow Agent" \
+        "Install Google Chrome" \
+        "Install EPP" \
+        "Install Forticlient" \
+        "Install Netskope Certificates" \
+        "Exit"; do
+
+        case $option in
+            "Install Microsoft Defender")
+                InstallMicrosoftDefender
+                ;;
+            "Install Snow Agent")
+                InstallSnowAgent
+                ;;
+            "Install Google Chrome")
+                InstallChrome
+                ;;
+            "Install EPP")
+                InstallEPP
+                ;;
+            "Install Forticlient")
+                InstallForticlient
+                ;;
+            "Install Netskope Certificates")
+                InstallNetskopeCerts
+                ;;
+            "Exit")
+                echo "👋 Exiting the script."
+                break
+                ;;
+            *)
+                echo "❗ Invalid option, please try again."
+                ;;
+        esac
+    done
+}
+
+# ---------------- Run the Script ----------------
+MainMenu
+#############################################
