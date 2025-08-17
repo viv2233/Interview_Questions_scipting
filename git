@@ -1,0 +1,70 @@
+Interviewer: You don't know GIT interview questions, how can i select you?
+Candidate: I might have missed few questions, but I am confident in other tech stacks please do ask me questions from any DevOps/SRE tools
+
+-> Basic Git Interview Questions
+
+What is Git? How is it different from other version control systems?
+What is the difference between Git and GitHub?
+What is a version control system (VCS)?
+How do you initialize a Git repository?
+What does git init do?
+How do you clone a repository?
+What are the stages in Git?
+What is the difference between git add, git commit, and git push?
+What is a commit in Git?
+How do you check the status of your Git repository?
+What does git status show you?
+How can you view your commit history?
+What is .gitignore and how does it work?
+What is a branch in Git?
+How do you create and switch to a new branch?
+How do you merge branches in Git?
+What is the difference between a local and remote repository?
+
+-> Intermediate Git Interview Questions
+
+Explain the difference between git merge and git rebase.
+What are merge conflicts? How do you resolve them?
+What is a fast-forward merge?
+What does git stash do?
+How do you apply or drop a stashed change?
+What is the difference between origin and upstream in Git remotes?
+How can you revert a commit that has already been pushed?
+What is the use of git cherry-pick?
+What are detached HEAD states in Git?
+How do you find a specific commit in history?
+How do you rename a branch in Git?
+How do you rebase a feature branch onto main or master?
+What is a Git tag and how is it used?
+What’s the difference between annotated and lightweight tags?
+How do you compare two branches in Git?
+
+-> Advanced Git Interview Questions
+
+Explain Git’s internal architecture (objects, blobs, trees, commits).
+What are Git hooks? How are they used in CI/CD?
+What is reflog in Git and when would you use it?
+What happens during git push --force and when should it be avoided?
+Explain rebasing vs. merging in a team collaboration scenario.
+What is the difference between git revert and git reset?
+Describe a situation where you’d use git bisect.
+How does Git ensure data integrity?
+How can you recover a deleted branch or commit?
+How does Git handle binary files vs. text files?
+How do submodules work in Git and when should they be used?
+What is Git LFS and when should it be used?
+What’s the difference between git blame and git log -p?
+Can you describe the steps to migrate a repository from SVN to Git?
+What are common Git anti-patterns you’ve encountered?
+
+Save this Post/Document for your reference 😀
+
+✅Real time DevOps Projects with hands-on and job guidance
+https://lnkd.in/gufpDijA [ Live classes starting in 1 day ]
+
+✅Top product based interview questions with answers
+https://lnkd.in/gMuBFkB9
+
+Follow Praveen Singampalli for more such content ❣️
+
+Note: Those who have registered for HandsOn projects with job guidance cohort do make sure you go over data attached in website
