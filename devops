@@ -239,4 +239,269 @@ Recovered from a secret leakage in version control
 Then Deloitte interviews won’t test you. They’ll expose the gaps in your chaos muscle.
 
 🧯 But what if you trained before prod burned?
+===========================================
+Interview Questions 
 
+Cloud / AWS
+
+1. Can you name some of the AWS services you have worked with?
+
+2. What is AWS WAF and where have you used it?
+
+3. You mentioned ECS — what kind of workloads have you deployed on ECS?
+
+4. What resources have you provisioned with Terraform inside an EKS cluster?
+
+5. If you have a CIDR range 1.2.3.4/32, can you use it for a VPC? Why or why not?
+
+CI/CD & Jenkins
+
+6. What kind of work have you done with Jenkins?
+
+7. Can you write a Jenkins pipeline with three stages — pull code from GitHub/GitLab, build the code into a tar package, and deploy the artifact on an agent labeled test?
+
+8. In that Jenkins pipeline, what is the role of SSH?
+
+9. What does the tar -czf command do in your pipeline?
+
+10. When copying the app.tar.gz file, where are you copying it to? Source vs. Target?
+
+11. Copying the file alone isn’t deployment. How would you actually deploy the app.tar.gz package?
+
+Kubernetes / Containers
+
+12. What applications have you deployed using Kubernetes?
+
+Terraform
+
+13. Have you deployed infrastructure using Terraform in your current project?
+
+14. Can you write a sample Terraform code to provision an EKS cluster?
+
+15. In Terraform, what does the source parameter in a module refer to?
+
+16. What are azs in Terraform?
+
+17. Why do we specify an instance type when creating an EKS cluster?
+
+18. Which Terraform versions have you worked with?
+
+19. What is a provider in Terraform?
+
+Python / AWS Lambda
+
+20. Can you write a Python script for AWS Lambda that creates an EC2 instance and stops it after one hour?
+
+21. What kind of use cases have you implemented using Lambda?
+
+22. How do you deploy a Lambda function in AWS?
+
+23. How can you schedule a Lambda to run every day at 8 p.m. using a cron expression?
+
+24. What cron expression would you use to trigger Lambda at 8 a.m. daily?
+
+25. What elements make up a cron expression?
+
+26. How many different ways can you trigger a Lambda function using EventBridge?
+
+Linux / Nginx / Scheduling
+
+27. What commands do you use in Linux to start and stop the NGINX service?
+
+28. Suppose you need to stop and start NGINX every Wednesday at 7 a.m. How would you implement this?
+
+29. If you don’t know the EC2 instance ID and don’t want to hardcode a cron inside the instance, how would you design a dynamic solution to restart NGINX based on the instance name?
+
+Chaos Engineering
+
+30. What is Chaos Monkey, and how have you used it in your projects?
+======================================
+******VPC Interview Question******
+
+1. What is Amazon VPC?
+2. What is the difference between a default VPC and a custom VPC?
+3. What is the maximum number of VPCs per AWS region?
+4. What is a subnet in VPC?
+5. What is the difference between a public subnet and a private subnet?
+6. What is a route table in VPC?
+7. What is an Internet Gateway (IGW)?
+8. What is a NAT Gateway and how is it different from a NAT Instance?
+9. What is the difference between Security Groups and NACLs?
+10. What is a VPC Endpoint and what are its types?
+11. What is the difference between a Gateway Endpoint and an Interface Endpoint?
+12. What is VPC Peering?
+13. What are the limitations of VPC Peering?
+14. What is AWS Transit Gateway and how is it different from VPC Peering?
+15. What is a DHCP option set in VPC?
+16. What is an Elastic IP (EIP) in VPC?
+17. What are Flow Logs in VPC and why are they used?
+18. What is the difference between IPv4 CIDR and IPv6 CIDR in VPC?
+19. What is the maximum number of IP addresses in a VPC subnet?
+20. What are the default components created when you launch a new VPC?
+=========================
+Terraform Scenario-based Questions Part-3
+
+31. Remote backend (e.g., S3) deleted/unreachable
+Restore or recreate backend (recover via versioning if enabled).
+If not possible, create a new backend (S3 + DynamoDB) and run terraform init -migrate-state.
+
+32. Resource A depends on Resource B, which depends on Resource A.
+Remove cyclic dependencies.
+Use depends_on only when needed.
+Split into modules or sequential applies.
+
+33. Slow terraform apply on huge configuration
+Modularize and apply independently.
+Use -target for small updates (short-term only).
+Use workspaces or separate states per environment/component.
+
+34. Plan shows "resource will be replaced" without changes
+Check force-new attributes.
+Compare remote vs. state (terraform state show).
+Use lifecycle { ignore_changes = [...] } for transient fields.
+
+35. Terraform destroy fails due to dependencies
+Destroy child resources first, then parent (reverse order).
+
+36. Resource exists manually but not in Terraform
+Import with terraform import.
+Write .tf config to match the real resource.
+(General retry/timeouts issue)
+Enable retry logic / increase provider timeouts.
+Reduce concurrency with -parallelism.
+
+37. Prevent unexpectedly high infra costs
+Use Infracost with terraform plan -out=tfplan.
+Review high-cost resources and enforce cost guardrails.
+
+38. Secrets showing in CI logs
+Mark outputs/vars as sensitive = true.
+Use secret managers (AWS Secrets Manager, Vault, etc.).
+Use encrypted CI env vars (no plaintext in logs).
+
+39. Terraform import complains invalid ID
+Verify correct resource ID/ARN/name.
+Check provider docs for expected format.
+Confirm the correct region/account/resource type.
+
+40. Some devs still commit terraform.tfstate, causing merge conflicts and leaks.
+Add both terraform.tfstate and *.tfstate.backup to .gitignore.
+Enforce the use of a remote backend (like Terraform Cloud, S3 + DynamoDB) to centralise state and eliminate local state files.
+Educate your team and enforce CI linting to catch accidental commits early
+==================
+1-Real-Time Project Based DevOps Interview Questions & Answers
+Q: In one of your projects, how did you design a CI/CD pipeline for a microservices-based application?
+A: Used GitHub Actions/Jenkins as CI/CD.
+Each microservice had its own pipeline:
+Build → Compile & run unit tests.
+Dockerize → Build container images and push to ECR/ACR.
+Deploy → Used Helm charts to deploy on Kubernetes (EKS/AKS/GKE).
+Implemented canary deployments with Istio for zero downtime.
+Added SonarQube & Trivy for code quality and security scans.
+Used ArgoCD for GitOps-based continuous deployment.
+
+Q: Can you explain a real-time scenario where you automated infrastructure provisioning using Terraform?
+ A:
+Worked on multi-account AWS setup for dev, staging, and prod.
+Wrote reusable Terraform modules for VPC, subnets, IAM roles, EC2, RDS, EKS.
+Used Terraform Cloud for remote state management & policies.
+Implemented workspaces for environment separation.
+Automated infra rollout in pipeline → infra changes tested in staging before prod.
+
+Q: How did you ensure high availability and disaster recovery in a production cloud setup?
+ A:
+Designed infra in multi-AZ (AWS) with auto-scaling groups.
+Used RDS with multi-AZ failover and read replicas for scaling.
+S3 + CloudFront for static content delivery.
+Setup Route53 health checks with failover routing.
+Automated daily backups & enabled cross-region replication for DR.
+
+Q: How did you handle Kubernetes scaling and deployments in production?
+ A:
+Used HPA (Horizontal Pod Autoscaler) based on CPU & custom metrics (latency).
+For deployments:
+Rolling updates for minor releases.
+Blue-Green/Canary for risky changes.
+Managed secrets with HashiCorp Vault/K8s Secrets + KMS.
+Implemented Pod Security Policies & NetworkPolicies for security.
+
+Q: How did you implement DevSecOps practices in your project?
+ A:
+Integrated SAST/DAST tools in CI/CD (SonarQube, OWASP ZAP).
+Container scanning using Trivy/Anchore before pushing images.
+Used HashiCorp Vault & AWS KMS for secrets.
+IAM least-privilege policies.
+Automated compliance checks with Terraform Sentinel/OPA.
+
+Q: Which branching strategy did you follow in your project and why?
+ A:
+Used Gitflow in large teams → feature branches, develop branch, release branches.
+For smaller agile teams → Trunk-based development (short-lived feature branches, frequent merges).
+Implemented PR checks with automated builds, tests, and code review approvals before merging.
+
+Q: Tell me about a major production issue you faced and how you resolved it.
+ A:
+Example: Outage due to memory leaks in one microservice.
+Steps:
+Detected via Grafana alerts (pod restarts + latency spikes).
+Rolled back deployment via ArgoCD.
+Debugged with kubectl logs + heap dump.
+Applied memory limits in K8s & optimized code.
+Created postmortem RCA and added chaos testing to simulate failures.
+============================
+Jenkins Scenario-Based Questions Part-1 
+
+1. Your Jenkins job is failing because the workspace is getting too large and builds are slowing down. How do you fix this?
+Answer:
+Use the Clean Workspace plugin or rm -rf * at the start of the job.
+Configure "Discard Old Builds" to limit history.
+Store artifacts in Nexus/Artifactory/S3 instead of the workspace.
+Use Pipeline cleanWs() step to automatically clean after every build.
+
+2. A Jenkins pipeline runs successfully, but deployment is not happening on the target server. What steps will you take?
+Answer:
+Check if credentials/SSH keys are properly configured.
+Verify post-build actions or deployment stages are triggered (when condition in pipeline may skip).
+Look at Jenkins logs (jenkins.log, consoleOutput).
+Ensure the target server is reachable (firewall/ports).
+Use sh 'scp file user@server:/path/' or Jenkins Publish Over SSH plugin.
+
+3. Jenkins master is overloaded with jobs. How do you scale it?
+Answer:
+Configure Jenkins agents/slaves and distribute jobs.
+Use labels to bind jobs to specific agents.
+Use Kubernetes plugin or Docker agents for dynamic scaling.
+Separate build, test, and deployment nodes.
+
+4. A Jenkins build is failing only on the agent node, but works fine on the master. What’s your approach?
+Answer:
+Check if tools (Java, Maven, Docker, etc.) are installed on the agent.
+Ensure PATH variables are configured.
+Verify file permissions on the agent workspace.
+Check if network access is same as master (e.g., repo access, artifact downloads).
+
+5. Your Jenkins job fails because of "Out of Memory" errors. What will you do?
+Answer:
+Increase Jenkins JVM heap size (-Xms512m -Xmx2048m).
+Clean old builds and workspaces.
+Run heavy builds on dedicated agents.
+Use parallel stages to distribute workload.
+======================
+🚀 AWS DevOps Interview Questions I Faced Recently
+
+1. Did you create any significant infrastructure in cloud? what did you create? 
+2. What is VPC?
+3. Did you configure any ACLs, route tables?
+4. Lets say I have two instances in different subnets in the same VPC, i want to connect from Machine A to Machine B, but not from Machine B to Machine A. How would you do that? 
+5. What is the purpose of Route tables?
+6. What is the purpose of NAT Gateway?
+7. What are the types of instances aws provide?
+8. Have you heard of AWS Jobs? AWS Batch?
+9. How does Kubernetes Works? 
+10. What is a Pod? difference between Container and Pod? 
+11. How does Kubernetes Maintains the Load?
+12. Horizontal Scaling vs Vertical Scaling?
+13. Do you Know python? 
+14. Do you know git? Lets say I am in middle of something and someone checked in the code there, now I need that modified code into my branch without losing my ongoing work. how? 
+
+============
