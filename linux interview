@@ -361,3 +361,38 @@ Useful in virtualized or cloud environments.
 
 Answer:
  • Backups are stored in /etc/lvm/archive/ and /etc/lvm/backup/
+
+===================================
+
+ ******Linux Patching Interview Questions******
+
+1.What is Linux patching?
+2.Why is patching important in Linux systems?
+3.What are the different types of patches in Linux?
+4.How do you check for available patches or updates in Linux?
+5.What command is used to update all packages in Red Hat or CentOS?
+6.What command is used to update all packages in Ubuntu or Debian?
+7.How do you check the current kernel version before and after patching?
+8.How can you check when the system was last patched?
+9.What is the difference between a security patch and a kernel patch?
+10.How do you apply only security updates on Linux?
+11.What tools can be used for automated patching in Linux?
+12.How can you perform patching using yum or dnf?
+13.How do you exclude certain packages from being updated during patching?
+14.What is yum-cron or dnf-automatic used for?
+15.What is the difference between yum update and yum upgrade?
+16.How do you perform a patch rollback if an update causes issues?
+17.How do you patch multiple servers at once?
+18.What precautions should be taken before applying patches?
+19.What is kernel live patching?
+20.What tools are used for live patching in Linux (e.g., kpatch, ksplice)?
+21.How do you schedule patching with minimal downtime?
+22.What’s the difference between manual patching and automated patching?
+23.How do you verify that patches have been applied successfully?
+24.What logs can you check after patching for any errors?
+25.What’s your approach if a server fails to boot after a kernel patch?
+26.How do you test patches before applying them in production?
+27.What is the importance of backups before patching?
+28.How do you notify users or teams about patching activities?
+29.How do you manage patching in large Linux environments?
+30.What’s the difference between OS patching and application patching?
