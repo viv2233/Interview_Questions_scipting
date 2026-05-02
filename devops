@@ -505,3 +505,144 @@ Use parallel stages to distribute workload.
 14. Do you know git? Lets say I am in middle of something and someone checked in the code there, now I need that modified code into my branch without losing my ongoing work. how? 
 
 ============
+terraform
+------------
+hashtag#Terraform Production Interview Questions
+
+What is Terraform and how does it manage infrastructure state?
+Terraform state file is accidentally deleted — how would you recover the infrastructure state?
+Multiple team members are working on the same Terraform code and state — how do you prevent conflicts?
+Terraform apply failed in the middle of execution — how do you recover from a partial deployment?
+Terraform shows drift between infrastructure and state — how do you identify and fix it?
+Terraform plan shows unexpected resource changes — how do you troubleshoot it?
+Remote backend (like S3) is not accessible — how do you debug backend issues?
+Terraform state file is locked — how do you resolve state lock issues?
+Terraform resources are getting recreated unexpectedly — what could be the cause?
+Sensitive values are visible in Terraform state — how do you secure them?
+Terraform modules are not working as expected — how do you debug module issues?
+A resource dependency is not respected — how do you handle dependency issues?
+Terraform variables are not being picked correctly — how do you debug variable precedence?
+Terraform apply takes too long — how do you optimize performance?
+Infrastructure created by Terraform is not accessible after deployment — how do you troubleshoot?
+Terraform workspace is not switching properly — how do you fix workspace-related issues?
+Terraform provider version conflict occurs — how do you resolve provider dependency issues?
+Terraform apply fails due to API rate limits — how do you handle throttling issues?
+Terraform cannot authenticate to cloud provider — how do you debug authentication failures?
+Terraform plan works locally but fails in CI/CD pipeline — how do you troubleshoot?
+🔹 Real Production Troubleshooting
+Resources are manually modified outside Terraform — how do you detect and fix configuration drift?
+Terraform destroy fails due to dependencies — how do you resolve it safely?
+Remote state corruption occurs — how do you recover state safely?
+Multiple environments (dev, stage, prod) need isolation — how do you design Terraform structure?
+Terraform outputs are not available after deployment — how do you debug?
+Infrastructure deployment fails due to incorrect IAM permissions — how do you troubleshoot?
+Terraform cannot find required modules — how do you fix module source issues?
+Changes are applied to wrong environment — how do you prevent such mistakes?
+Terraform rollback is required after a failed deployment — how do you handle rollback strategy?
+How do you troubleshoot a complete infrastructure deployment failure using Terraform?
+============
+AWS
+======
+hashtag#AWS Production Issue-Based Interview Questions.
+
+🔹 AWS Production Scenario Questions
+An application hosted on Amazon Web Services is not accessible from the internet — how do you troubleshoot it?
+An EC2 instance is running but not reachable via SSH — what steps will you take?
+An EC2 instance suddenly stopped responding — how do you investigate the issue?
+CPU utilization is very high on EC2 — how do you identify the root cause?
+Application latency suddenly increased — how do you troubleshoot performance issues?
+
+🔹 Networking & Load Balancer Issues
+Traffic is not reaching the application behind an Application Load Balancer — what could be wrong?
+Instances behind Load Balancer are marked unhealthy — how do you debug health check failures?
+Users cannot access application in private subnet — how do you troubleshoot connectivity?
+Internet access is not working from private subnet instances — what checks will you perform?
+DNS is not resolving for your application — how do you troubleshoot issues with Route 53?
+
+🔹 Storage Issues
+Files uploaded to Amazon S3 are not accessible — how do you debug permission issues?
+S3 data transfer cost suddenly increased — how do you investigate?
+An EBS volume is full — how do you extend storage without downtime?
+EBS volume performance is very slow — how do you troubleshoot I/O bottlenecks?
+Data stored in S3 is accidentally deleted — how do you recover it?
+
+🔹 Database Issues
+An Amazon RDS instance is not accessible — how do you troubleshoot?
+Database performance degraded significantly — how do you analyze the issue?
+RDS storage is full — how do you handle it in production?
+Multi-AZ failover happened — how do you verify application recovery?
+Database backup failed — how do you investigate the failure?
+
+🔹 Security & IAM Issues
+Users are unable to access AWS resources — how do you troubleshoot IAM permission issues?
+An EC2 instance cannot access S3 — how do you debug IAM role problems?
+Unauthorized access detected — what immediate actions will you take?
+Security group changes caused application downtime — how do you identify the issue?
+
+🔹 Scaling & Availability Issues
+Auto Scaling group is not launching new instances — how do you troubleshoot?
+Instances are launching but not registering with Load Balancer — what could be wrong?
+Application downtime occurred during deployment — how do you design zero-downtime deployments?
+Sudden spike in traffic caused application failure — how do you handle scaling issues?
+CloudWatch alarms triggered frequently — how do you analyze and tune alerts?
+How do you troubleshoot a complete production outage in AWS?
+============
+PYTHON
+=========
+hashtag#Python Interview Questions (2–4 Years DevOps Engineer).
+
+How is Python used in DevOps automation?
+How do you write reusable and modular Python code?
+What are virtual environments and how do you manage dependencies?
+How do you handle exceptions in production-grade scripts?
+How do you work with files and logs in Python?
+How do you call REST APIs using Python?
+What is the requests library and how is it used?
+How do you automate infrastructure tasks using Python?
+How do you write scripts for log parsing and monitoring?
+How do you schedule Python scripts (cron, schedulers)?
+How do you handle multithreading and multiprocessing?
+How do you optimize Python script performance?
+How do you manage configuration using environment variables?
+How do you integrate Python scripts with CI/CD pipelines?
+How do you debug Python scripts in production?
+What are common Python issues in DevOps?
+How do you secure Python scripts (secrets handling)?
+How do you package and distribute Python applications?
+How do you write unit tests for Python scripts?
+What are best practices for Python in DevOps?
+===========
+LIINUX
+=========
+**Linux Interview Questions******
+
+A server is running slow, how will you identify whether it is CPU, memory, or I/O issue?
+How do you troubleshoot high CPU utilization in Linux?
+A process is consuming too much memory — how will you debug and fix it?
+How do you analyze memory leaks in a Linux system?
+How do you troubleshoot disk space issues when df and du show different values?
+A file is deleted but disk space is not freed — how will you fix it?
+How do you check which process is using a specific port?
+A service is not starting — how do you troubleshoot it?
+How do you debug a systemd service failure?
+How do you analyze logs efficiently in Linux for production issues?
+How do you monitor real-time system performance?
+How do you check open file descriptors and fix “too many open files” error?
+How do you troubleshoot network connectivity issues between two servers?
+How do you check DNS issues in Linux?
+How do you capture and analyze network packets?
+How do you troubleshoot slow network performance?
+How do you secure a Linux server in production?
+How do you manage user permissions and access control securely?
+What is SELinux and how do you troubleshoot related issues?
+How do you schedule and manage cron jobs effectively?
+A cron job is not running — how will you debug it?
+How do you manage disk partitions and LVM in Linux?
+How do you extend a filesystem without downtime?
+How do you troubleshoot mount issues in Linux?
+How do you handle zombie processes?
+How do you automate repetitive tasks in Linux?
+How do you optimize system performance for high-load applications?
+How do you troubleshoot SSH login issues?
+How do you audit system activities in Linux?
+How do you handle production outages in Linux systems step by step?
