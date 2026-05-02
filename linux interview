@@ -363,7 +363,134 @@ Answer:
  • Backups are stored in /etc/lvm/archive/ and /etc/lvm/backup/
 
 ===================================
+In high-scale environments, managing FDs efficiently is critical. Tools like epoll are essential because they allow us to monitor thousands of these file descriptors simultaneously without the performance degradation seen in older methods like select or poll."
 
+What is AppArmor?
+
+AppArmor as a critical security layer for the Linux kernel that implements Mandatory Access Control (MAC).
+
+While the standard Linux security model (Discretionary Access Control or DAC) relies on users and groups to manage permissions, AppArmor focuses on the application itself, regardless of which user is running it.
+
+---
+The Professional Definition
+"AppArmor (Application Armor) is a Linux kernel security module that allows the system administrator to restrict programs' capabilities with per-program profiles. It supplements the traditional Unix permissions model by confining applications to a limited set of resources—such as specific files, network sockets, or capabilities—effectively creating a 'sandbox' around the process."
+------------
+AppArmor Check: aa-status
+
+SELinux Check: sestatus
+===============
+What is swap thrashing?
+========
+Swap thrashing is a high-paging state that occurs when the system's active workload exceeds its available physical RAM. This forces the kernel to constantly move pages of memory between the RAM and the Swap space (disk). Because disk I/O—even on fast NVMe drives—is significantly slower than RAM, the CPU spends the majority of its time waiting for memory pages to swap in and out rather than executing application code. This results in a total system slowdown or 'freeze'."
+============
+What is sysctl?
+==============
+sysctl as the primary interface for managing the Linux kernel's behavior dynamically. It allows you to read and modify kernel parameters at runtime without requiring a system reboot or a kernel recompilation.
+
+Real-World Examples (Production Use-Cases)
+As a Linux Admin or DevOps Engineer, you would use sysctl for System Hardening and Performance Tuning:
+
+Networking (Performance):
+net.core.somaxconn = 1024
+
+(Increases the limit of the listen queue for accepting new TCP connections, vital for high-traffic web servers.)
+
+Memory (Stability):
+vm.swappiness = 10
+
+(Reduces the kernel's tendency to swap, keeping more data in physical RAM.)
+
+Security (Hardening):
+net.ipv4.conf.all.accept_redirects = 0
+
+(Disables ICMP redirects to prevent MITM attacks.)
+
+Resource Limits:
+fs.file-max = 2097152
+(Increases the maximum number of file descriptors the system can open, preventing "Too many open files" errors.)
+
+Troubleshooting & Management
+sysctl -a: Lists all currently available kernel parameters (useful for discovery).
+
+sysctl -n [parameter]: Returns only the value, which is perfect for shell scripting and automation.
+
+sysctl -p: Reloads the configuration from /etc/sysctl.conf. This is a standard step in many Ansible or Terraform deployment scripts.
+===================
+What is load balancer vs reverse proxy?
+=======
+Reverse Proxy: Focuses on Application Control. It acts as a "gateway" for a server, hiding the server's identity and providing security, caching, and SSL termination.
+
+Load Balancer: Focuses on Availability and Scaling. It distributes incoming traffic across a "pool" of multiple backend servers to ensure no single server is overwhelmed.
+
+In a production architecture, these roles often merge, but the distinction is technical. I use a Reverse Proxy when I need to handle SSL offloading or protect a specific application's identity. I implement a Load Balancer when I need to scale horizontally. For example, in a Kubernetes environment, an Ingress Controller (like Nginx) acts as both: it provides the Reverse Proxy features like URL rewriting and SSL, while simultaneously acting as a Load Balancer to distribute traffic across various Pods."
+=============
+What is kernel panic?
+=========
+Kernel Panic as the ultimate safety mechanism of the Linux operating system. It is the kernel's way of saying, "Something has gone so wrong that I cannot safely continue operating without risking data corruption or hardware damage."
+
+The Professional Definition
+"A Kernel Panic is a critical system error that occurs when the Linux kernel encounters a fatal condition from which it cannot recover. At this point, the kernel stops all execution, flashes the keyboard lights (on some hardware), and displays an error message on the console. It is the Linux equivalent of the 'Blue Screen of Death' (BSOD) in Windows."
+========
+What is journaling file system?
+============
+Journaling File System as a robust file system that maintains a special log (a journal) to track changes before they are permanently committed to the main filesystem. This is primarily a data integrity and fast recovery feature.
+
+The Professional Definition
+"A journaling file system is designed to prevent filesystem corruption in the event of a system crash or power failure. It works by recording the 'intent' of a disk write operation in a dedicated area called the journal before performing the actual write. If the system fails mid-operation, the kernel can simply replay the journal to complete the task or roll it back, ensuring the filesystem remains in a consistent state."
+
+=========
+ What is OOM Killer?
+============
+"The OOM Killer is a kernel mechanism that activates when the system is dangerously low on available memory (RAM + Swap). Because the Linux kernel often 'overcommits' memory—promising more RAM to applications than it actually has—it sometimes runs into a situation where it cannot satisfy a memory request. To prevent the entire kernel from crashing (a Kernel Panic), the OOM Killer selects and terminates a specific process to reclaim memory."
+
+1. How the "Victim" is Selected (OOM Score)
+The kernel doesn't just pick a process at random. It uses an algorithm to calculate an oom_score for every running process. The process with the highest score is killed first.
+
+Factors that increase the score:
+
+High Resident Memory: The more RAM the process is using, the more likely it is to be targeted.
+
+Process Age: Younger processes are sometimes targeted more than older, established ones.
+
+Non-Root User: Processes run by the root user are given a slight protection (a lower score).
+
+Where to find it:
+You can actually see the score for any process (e.g., PID 1234) in the /proc filesystem:
+cat /proc/1234/oom_score
+
+2. The Concept of "Overcommit"
+To sound like a senior admin, you must explain why this happens.
+Linux uses Memory Overcommit. Think of it like an airline that overbooks a flight, assuming not everyone will show up. The kernel grants memory requests from apps, betting that they won't all use 100% of that memory at the exact same time. When they do, the "flight is full," and the OOM Killer starts "bumping" passengers.
+
+3. Managing the OOM Killer in Production
+In a DevOps environment, you don't always want the kernel to decide who dies. You can influence the OOM Killer:
+
+OOM Score Adjust (oom_score_adj): You can manually lower a process's score to protect it. For example, you might protect your SSH daemon or a critical Database so they are the last to be killed.
+
+Sysctl Tuning:
+
+vm.overcommit_memory: You can change this to "2" to disable overcommit, making the system refuse new memory requests once RAM is full (this prevents the OOM Killer but might make apps crash earlier).
+
+vm.panic_on_oom: If set to 1, the system will simply perform a Kernel Panic instead of trying to kill a process.
+===========
+ What is systemd and how does it work?
+--------------------
+"systemd is a suite of basic building blocks for a Linux system. It operates as an init system with PID 1, meaning it is the first process started by the kernel and the last one to terminate. Its primary goal is to provide a standardized framework for managing system services, dependencies, and resources using a declarative approach."
+==============
+
+===========
+strace as a powerful diagnostic, instructional, and debugging tool for Linux. It allows you to intercept and record the system calls made by a process and the signals it receives.
+
+The Professional Definition
+"strace is a userspace utility that monitors the interaction between a process and the Linux kernel. Since every meaningful action a program takes—such as reading a file, opening a network socket, or allocating memory—requires a system call, strace provides a transparent window into exactly what a binary is doing in real-time, even without access to the source code."
+
+Attaching to a Running Process
+If a service is already running and acting sluggish, you can attach to it using its PID:
+
+Bash
+sudo strace -p 1234
+
+================
  ******Linux Patching Interview Questions******
 
 1.What is Linux patching?
@@ -396,3 +523,5 @@ Answer:
 28.How do you notify users or teams about patching activities?
 29.How do you manage patching in large Linux environments?
 30.What’s the difference between OS patching and application patching?
+=====================
+
