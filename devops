@@ -646,3 +646,110 @@ How do you optimize system performance for high-load applications?
 How do you troubleshoot SSH login issues?
 How do you audit system activities in Linux?
 How do you handle production outages in Linux systems step by step?
+==================
+journalctl --vacuum-time=30d - remove journal logs older than 30 day
+
+ logrotate -d /etc/logrotate.conf – Tests log 
+rotation configuration
+
+date "+%Y-%m-%d %H:%M:%S" – Displays date and time in 
+a specific format
+-------------
+Few interview questions for experience candidates 
+
+Q1. How to set password for a user that never expire ?
+Q2. Why /etc/passwd and /etc/shadow file cannot be merged ?
+Q3. How we can list all files opened by particular process?
+Q4. We are unable to unmount a filesystem.What can be the possible reason 
+Q5. What can be the reason if a server is taking more time after reboot?
+Q6. We are not able to create new files in a partition. We have enough disk space and permissions. What can be the possible reason ?
+Q7. How to check kernel routing information?
+Q8. How to set sticky bit and different b/w small 's' and capital 'S'?
+Q9. which file is used to specify default gateway ?
+Q10. How to switch between different run-levels ?
+Q11. What is NFS ? How to configure and what port is uses?
+Q12. What is nice and renice value. How to set them for a particular process. Q13. Difference between FTP and TFTP?
+Q14. How to extend logical volume size in Linux ?
+Q15. How will you rollback packages after patching ?
+Q16. What is rsync? tell us the command and also how it is different from sop ?
+Q17. How to reduce the size of logical volume ? Filesystem reduction can be happened online or not ?
+Q18. How to set line no. in vim ?
+Q19. Define each field of /etc/fstab file ?
+Q20. Difference between soft link and hard link ? Can we create a hard link across filesystems?
+Q21. How to check a port is listening or not ?
+Q22. Difference between df and du command?
+Q23. What is journaling ? Difference between ext2 and ext fs?
+Q24. Define boot process step by step ?
+Q25. What are Run-levels ?
+Q26. what is meaning of PCPU and JCPU in w command output?
+Q27. What is load average ? and how it is calculated ?
+Q28. What happen when you type a url in browser and hit enter ?
+Q29. Diff between RPM and YUM? How to check package is installed or not? 
+Q30. What is ACL? Why we need it and how to check or set ACL over a file or directory ?
+Q31. What is inode and what things it stored ?
+Q32. Can we schedule a 2 sec task in crontab ?
+Q33. In a production env if a server rebooted itself, So how would you check whether it is done by any other user on system or it rebooted automatically. 
+Q34. Which command is used to set user password expiry date ?
+Q35. How to extract a single file from tar archive ?
+Q36. Command to check memory usage ?
+Q37. Command to check the kernel version and architecture of a Linux server 
+Q38. How to search text within multiple files ?
+Q39. what is atime, mtime and ctime? How we can take advantage of them ? 
+Q40. How to delete log files which are 30 days old ?
+===============
+Here are 20 questions every DevOps engineer should know to clear interviews
+
+𝐊𝐮𝐛𝐞𝐫𝐧𝐞𝐭𝐞𝐬 & 𝐂𝐨𝐧𝐭𝐚𝐢𝐧𝐞𝐫𝐬
+1. Pod is Running but returning 503 - how do you debug at network, service, and ingress level?
+2. How does Kubernetes scheduling work internally, and what are common causes of scheduling failures?
+3. How do you design zero-downtime deployments for stateful applications in Kubernetes?
+4. Explain how CNI plugins work and how cross-node pod communication happens.
+5. How do you debug intermittent pod restarts with no clear logs?
+
+𝐂𝐈/𝐂𝐃 & 𝐏𝐞𝐫𝐟𝐨𝐫𝐦𝐚𝐧𝐜𝐞
+6. CI pipeline builds 50 images and takes 20 minutes - how do you reduce it to <5 minutes?
+7. How do you design a secure CI/CD pipeline with integrated DevSecOps practices?
+8. Pipeline works in staging but fails in production - how do you systematically debug?
+
+𝐂𝐥𝐨𝐮𝐝 & 𝐈𝐧𝐟𝐫𝐚𝐬𝐭𝐫𝐮𝐜𝐭𝐮𝐫𝐞
+9. Design a multi-region, highly available architecture with failover and data consistency.
+10. Your AWS bill increased 3x overnight - how do you identify the root cause?
+11. How do you handle infrastructure drift in Terraform across multiple teams?
+12.Terraform apply failed midway - how do you recover without corrupting state? 
+
+𝐒𝐞𝐜𝐮𝐫𝐢𝐭𝐲 & 𝐒𝐞𝐜𝐫𝐞𝐭𝐬
+13. How do you design secure secrets management across 100+ microservices?
+14. Your system passed all scans but got compromised - what security layers were missing?
+
+𝐎𝐛𝐬𝐞𝐫𝐯𝐚𝐛𝐢𝐥𝐢𝐭𝐲 & 𝐑𝐞𝐥𝐢𝐚𝐛𝐢𝐥𝐢𝐭𝐲
+15. How do you design observability (logs, metrics, traces) for a distributed system?
+16.How do you implement SLO-based alerting without alert fatigue?
+17. Service latency spikes every 60 seconds - how do you debug root cause?
+
+𝐏𝐫𝐨𝐝𝐮𝐜𝐭𝐢𝐨𝐧 & 𝐈𝐧𝐜𝐢𝐝𝐞𝐧𝐭 𝐇𝐚𝐧𝐝𝐥𝐢𝐧𝐠
+18. Production is down - what are your first 5 steps under pressure?
+19. How do you design systems for graceful degradation during failures?
+20. How do you ensure zero-downtime cluster upgrades in Kubernetes? 
+====================
+How do you design a scalable Jenkins architecture?
+What is master-agent architecture and how does it work in Jenkins?
+How do you handle multiple pipelines efficiently in Jenkins?
+How do you design a CI/CD pipeline for microservices using Jenkins?
+How do you secure Jenkins in production?
+How do you manage credentials securely in Jenkins?
+How do you integrate Jenkins with GitHub/GitLab?
+How do you trigger pipelines using webhooks?
+How do you handle pipeline failures in Jenkins?
+How do you debug Jenkins build issues?
+What is pipeline as code and how do you implement it?
+How do you use shared libraries in Jenkins?
+How do you optimize Jenkins pipeline performance?
+How do you handle parallel execution in Jenkins?
+How do you implement rollback strategy in Jenkins pipeline?
+How do you integrate Jenkins with Docker and Kubernetes?
+How do you monitor Jenkins performance?
+What are common Jenkins production issues?
+How do you handle plugin management in Jenkins?
+What are best practices for Jenkins
+
+
