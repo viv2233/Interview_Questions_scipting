@@ -1071,4 +1071,8 @@ File System & Storage
 34. Your df -h and dush show different disk usage. Why?
 
 35. How do you find out which directory is consuming the most in /var?
+========================
+How to extend logical volume size in Linux ?
+
+
 
